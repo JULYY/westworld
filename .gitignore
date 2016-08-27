@@ -1,0 +1,13 @@
+#compied source#
+################
+*.dll
+*.exe
+*.o
+*.so
+*.ilk
+*.pdb
+*.sdf
+
+#ºöÂÔipch
+ipch
+!ipch/
