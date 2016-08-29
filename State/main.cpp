@@ -9,15 +9,14 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Miner miner(ent_Miner_Bob);
+	Miner* Bob = new Miner(ent_Miner_Bob);
 
-	for (int i = 0; i < 20;i++)
+	for (int i = 0; i < 20; i++)
 	{
-		miner.Update();
+		Bob->Update();
 
 		Sleep(800);
 	}
-
 	PressAnyKeyToContinue();
 
 	return 0;

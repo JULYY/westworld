@@ -32,11 +32,11 @@ void EnterMineAndDigForNugget::Execute(Miner* pMiner)
 	cout << "\n" << GetNameOfEntity(pMiner->ID()) << ":" << "Picking up a nugget";
 	if (pMiner->PocketsFull())
 	{
-		pMiner->ChangeState(VisitBankAndDepositGold::Instance());
+		pMiner->m_pStateMachine->ChangeState(VisitBankAndDepositGold::Instance());
 	}
 	if (pMiner->Thirsty())
 	{
-		pMiner->ChangeState(QuenchThirst::Instance());
+		pMiner->m_pStateMachine->ChangeState(QuenchThirst::Instance());
 	}
 }
 
@@ -74,11 +74,11 @@ void VisitBankAndDepositGold::Execute(Miner* pMiner)
 	{
 		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "\n" << GetNameOfEntity(pMiner->ID()) << ":" << "WooHoo! Rich enough for now.Back home!";
-		pMiner->ChangeState(GoHomeAndSleepTilRested::Instance());
+		pMiner->m_pStateMachine->ChangeState(GoHomeAndSleepTilRested::Instance());
 	}
 	else
 	{
-		pMiner->ChangeState(EnterMineAndDigForNugget::Instance());
+		pMiner->m_pStateMachine->ChangeState(EnterMineAndDigForNugget::Instance());
 	}
 
 }
@@ -114,7 +114,7 @@ void GoHomeAndSleepTilRested::Execute(Miner* pMiner)
 	{
 		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "\n" << GetNameOfEntity(pMiner->ID()) << ":" << "what a God darn fantastic nap! Time to find more gold!";
-		pMiner->ChangeState(EnterMineAndDigForNugget::Instance());
+		pMiner->m_pStateMachine->ChangeState(EnterMineAndDigForNugget::Instance());
 	}
 	else
 	{
@@ -156,7 +156,7 @@ void QuenchThirst::Execute(Miner* pMiner)
 		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "\n" << GetNameOfEntity(pMiner->ID()) << ":" << "That's might fine sipping liquer ";
 		pMiner->ChangeLocation(saloon);
-		pMiner->ChangeState(EnterMineAndDigForNugget::Instance());
+		pMiner->m_pStateMachine->ChangeState(EnterMineAndDigForNugget::Instance());
 	}
 	else
 	{

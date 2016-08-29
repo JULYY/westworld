@@ -8,18 +8,22 @@ Miner::Miner(int id) :BaseGameEntity(id),
 						m_iGoldCarried(0),
 						m_iMoneyInBank(0),
 						m_iThirst(0),
-						m_iFatigue(0),
-						m_pCurrentState(GoHomeAndSleepTilRested::Instance())
-	{}
+						m_iFatigue(0)
+						
+	{
+	m_pStateMachine = new StateMachine<Miner>(this);
+	m_pStateMachine->SetCurrentState(GoHomeAndSleepTilRested::Instance());
+	//m_pStateMachine->SetGlobalState()
+	}
 
-void Miner::ChangeState(State<Miner>* p_NewState)
-{
-	assert(m_pCurrentState&&p_NewState);
-
-	m_pCurrentState->Exit(this);
-	m_pCurrentState = p_NewState;
-	m_pCurrentState->Enter(this);
-}
+//void Miner::ChangeState(State<Miner>* p_NewState)
+//{
+//	assert(m_pCurrentState&&p_NewState);
+//
+//	m_pCurrentState->Exit(this);
+//	m_pCurrentState = p_NewState;
+//	m_pCurrentState->Enter(this);
+//}
 
 void Miner::AddToGoldCarried(const int val)
 {
@@ -46,15 +50,13 @@ bool Miner::Thirsty()const
 	{
 		return true;
 	}
+	return false;
 }
 
 void Miner::Update()
 {
 	m_iThirst += 1;
-	if (m_pCurrentState)
-	{
-		m_pCurrentState->Execute(this);
-	}
+	m_pStateMachine->CurrentState()->Execute(this);
 }
 
 bool Miner::Fatigued()const

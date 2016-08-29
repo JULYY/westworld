@@ -7,6 +7,8 @@
 #include "BaseGameEntity.h"
 #include "Locations.h"
 #include "State.h"
+#include "StateMachine.h"
+
 
 //
 const int ConfortLevel = 5;
@@ -27,11 +29,19 @@ public:
 
 	Miner(int id);
 
-	//执行状态的迁移
+	~Miner()
+	{
+		delete m_pStateMachine;
+	}
+
+	////执行状态的迁移
 	void Update();
 
-	//退出当前状态Exit()并检测新状态合法性，执行进入状态函数Enter()
-	void ChangeState(State<Miner>* new_state);
+	////退出当前状态Exit()并检测新状态合法性，执行进入状态函数Enter()
+	//void ChangeState(State<Miner>* new_state);
+
+	//状态机对象，包涵当前状态，前一状态，全局状态
+	StateMachine<Miner>* m_pStateMachine;
 
 	location_type Location()const { return m_location; }
 	void ChangeLocation(const location_type loc) { m_location = loc; }
@@ -54,7 +64,7 @@ public:
 
 private:
 	//当前状态
-	State<Miner>* m_pCurrentState;
+	/*State<Miner>* m_pCurrentState;*/
 
 	//当前位置
 	location_type m_location;
